@@ -92,10 +92,13 @@ export default function Hero({ locale = defaultLocale }: { locale?: Locale }) {
     if (prefersReducedMotion) return; // keep the static poster, no autoplay
     const v = videoRef.current;
     if (!v) return;
-    setVideoActive(true);
+    // Start loading/playing but DO NOT cross-fade yet. With preload="none" the
+    // video has no decoded frame at this point, so fading the poster out now
+    // would reveal a gap (flash) until the first frame arrives. We flip
+    // videoActive only once the video is actually painting — see onPlaying.
     v.currentTime = 0;
     v.play().catch(() => {
-      // autoplay blocked (e.g. reduced-motion / power saver) — fall back to poster
+      // autoplay blocked (e.g. reduced-motion / power saver) — keep the poster
       setVideoActive(false);
     });
   }, [done]);
@@ -233,6 +236,11 @@ export default function Hero({ locale = defaultLocale }: { locale?: Locale }) {
             playsInline
             preload="none"
             aria-hidden="true"
+            onPlaying={() => {
+              // First frame is on screen — now it's safe to cross-fade the
+              // poster out without exposing a gap (prevents the flash).
+              setVideoActive(true);
+            }}
             onTimeUpdate={(e) => {
               const v = e.currentTarget;
               if (v.currentTime >= STOP_AT_SECONDS) {
