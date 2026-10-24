@@ -15,7 +15,9 @@ export const htmlLang: Record<Locale, string> = {
 /** Detect the active locale from a pathname like "/vi/docs". */
 export function getLocale(pathname: string): Locale {
   const seg = pathname.split("/").filter(Boolean)[0];
-  return (locales as readonly string[]).includes(seg) ? (seg as Locale) : defaultLocale;
+  return (locales as readonly string[]).includes(seg)
+    ? (seg as Locale)
+    : defaultLocale;
 }
 
 /**
@@ -26,7 +28,8 @@ export function getLocale(pathname: string): Locale {
  */
 export function stripLocale(pathname: string): string {
   const parts = pathname.split("/").filter(Boolean);
-  if (parts.length && (locales as readonly string[]).includes(parts[0])) parts.shift();
+  if (parts.length && (locales as readonly string[]).includes(parts[0]))
+    parts.shift();
   return parts.length ? `/${parts.join("/")}/` : "/";
 }
 
@@ -52,7 +55,11 @@ export function localizePath(path: string, locale: Locale): string {
   if (!base.endsWith("/")) base += "/";
 
   // Prefix non-default locales, avoiding double-prefix.
-  if (locale !== defaultLocale && base !== `/${locale}/` && !base.startsWith(`/${locale}/`)) {
+  if (
+    locale !== defaultLocale &&
+    base !== `/${locale}/` &&
+    !base.startsWith(`/${locale}/`)
+  ) {
     base = base === "/" ? `/${locale}/` : `/${locale}${base}`;
   }
 

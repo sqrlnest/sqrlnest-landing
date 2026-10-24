@@ -451,5 +451,12 @@ const showToc = isMarkdown && toc.length >= 3;
 
       document.addEventListener("astro:page-load", initTocSpy);
     </script>
+
+    <!-- Ratatoskr chatbot widget (served by the sqrlnest-chatbot Worker).
+         One immutable line: the widget owns its own lifecycle, mounts a Shadow
+         DOM on document.body (outside the ClientRouter swap region), and reads
+         the active theme from localStorage (sqrlnest-theme / sqrlnest-mode) at
+         runtime. `async` so it never blocks rendering; it loads after landing. -->
+    <script is:inline src="/api/chatbot/chatbot.js" async></script>
   </body>
 </html>

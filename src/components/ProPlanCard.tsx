@@ -32,7 +32,13 @@ export default function ProPlanCard({ plan }: Props) {
   const toggle = (id: string) =>
     setEnabled((prev) => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+
       return next;
     });
 
@@ -49,7 +55,9 @@ export default function ProPlanCard({ plan }: Props) {
       <p className="text-2xl font-bold text-brand mb-1">
         {currency}
         {price}
-        {per && <span className="text-sm font-normal text-secondary">{per}</span>}
+        {per && (
+          <span className="text-sm font-normal text-secondary">{per}</span>
+        )}
       </p>
       <p className="text-[13px] text-secondary leading-relaxed mb-5 min-h-[2.5em]">
         {plan.tagline}
@@ -57,7 +65,10 @@ export default function ProPlanCard({ plan }: Props) {
 
       <ul className="flex flex-col gap-2 mb-6 flex-1">
         {plan.features.map((f) => (
-          <li key={f} className="text-[13px] text-secondary flex items-start gap-2">
+          <li
+            key={f}
+            className="text-[13px] text-secondary flex items-start gap-2"
+          >
             <span className="text-brand mt-0.5 shrink-0">+</span>
             <span>{f}</span>
           </li>
@@ -65,7 +76,10 @@ export default function ProPlanCard({ plan }: Props) {
         {/* Price-changing add-ons, inline with the feature list. Switch leads
             the row (in place of the "+" marker), then label + info tooltip. */}
         {addons.map((a) => (
-          <li key={a.id} className="text-[13px] text-secondary flex items-start gap-2">
+          <li
+            key={a.id}
+            className="text-[13px] text-secondary flex items-start gap-2"
+          >
             <span className="mt-0.5 shrink-0">
               <Switch
                 checked={enabled.has(a.id)}
