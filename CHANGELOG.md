@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/sqrlnest/sqrlnest-landing/compare/v1.6.0...v1.6.1) (2026-10-24)
+
+
+### Bug Fixes
+
+* **hero:** prevent flash on poster-to-video transition ([874d23a](https://github.com/sqrlnest/sqrlnest-landing/commit/874d23aa9a8b6220e90554ddba1fa19ca42c50a7))
+
 # [1.6.0](https://github.com/ratas-ai/ratas-landing/compare/v1.5.0...v1.6.0) (2026-10-21)
 
 
