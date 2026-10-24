@@ -44,19 +44,19 @@ export default function ThemeSwitcher() {
 
   // hydrate from localStorage (defaults set by anti-FOUC script)
   useEffect(() => {
-    setTheme(localStorage.getItem("ratas-theme") || "paper");
-    setMode((localStorage.getItem("ratas-mode") as Mode) || "system");
+    setTheme(localStorage.getItem("sqrlnest-theme") || "paper");
+    setMode((localStorage.getItem("sqrlnest-mode") as Mode) || "system");
   }, []);
 
   function pickTheme(id: string) {
     setTheme(id);
-    localStorage.setItem("ratas-theme", id);
+    localStorage.setItem("sqrlnest-theme", id);
     apply(id, mode);
   }
 
   function pickMode(id: Mode) {
     setMode(id);
-    localStorage.setItem("ratas-mode", id);
+    localStorage.setItem("sqrlnest-mode", id);
     apply(theme, id);
   }
 

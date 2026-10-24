@@ -119,7 +119,7 @@ const showToc = isMarkdown && toc.length >= 3;
     <script is:inline>
       (function () {
         function applyMode() {
-          var m = localStorage.getItem("ratas-mode") || "system";
+          var m = localStorage.getItem("sqrlnest-mode") || "system";
           if (m === "light" || m === "dark") {
             document.documentElement.setAttribute("data-theme", m);
           } else {
@@ -131,7 +131,7 @@ const showToc = isMarkdown && toc.length >= 3;
         // the active theme survives language (or any) navigation.
         document.addEventListener("astro:after-swap", function () {
           applyMode();
-          var th = localStorage.getItem("ratas-theme") || "paper";
+          var th = localStorage.getItem("sqrlnest-theme") || "paper";
           document.body.setAttribute("data-astryx-theme", th);
         });
       })();
@@ -251,7 +251,7 @@ const showToc = isMarkdown && toc.length >= 3;
     <!-- Anti-FOUC (theme): set the active Astryx theme on <body> before paint. -->
     <script is:inline>
       (function () {
-        var t = localStorage.getItem("ratas-theme") || "paper";
+        var t = localStorage.getItem("sqrlnest-theme") || "paper";
         document.body.setAttribute("data-astryx-theme", t);
       })();
     </script>
