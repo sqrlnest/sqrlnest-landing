@@ -1,3 +1,16 @@
+# [1.7.0](https://github.com/sqrlnest/sqrlnest-landing/compare/v1.6.1...v1.7.0) (2026-10-25)
+
+
+### Bug Fixes
+
+* **hero:** resolve hydration mismatch on the Yggdrasil video ([3d0e796](https://github.com/sqrlnest/sqrlnest-landing/commit/3d0e796fd94acae586d2d5d5af3dd7c2041d1cbc))
+
+
+### Features
+
+* **chatbot:** embed Ratatoskr widget script in layout ([898d225](https://github.com/sqrlnest/sqrlnest-landing/commit/898d2255a9087eaf974784ee4a86a8dc1946cf6c))
+* **store:** add shared window.__sqrlnest store, remove header ThemeSwitcher ([b0cd9f3](https://github.com/sqrlnest/sqrlnest-landing/commit/b0cd9f3b60552be2d885e6406e819145d806805c))
+
 ## [1.6.1](https://github.com/sqrlnest/sqrlnest-landing/compare/v1.6.0...v1.6.1) (2026-10-24)
 
 
