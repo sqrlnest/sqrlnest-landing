@@ -2,7 +2,6 @@
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import CircuitBackground from "../components/CircuitBackground.astro";
-import ThemeSwitcher from "../components/ThemeSwitcher.tsx";
 import { getLocale, localizePath, stripLocale, locales, defaultLocale } from "../i18n";
 import { getStrings } from "../i18n/strings";
 
@@ -137,6 +136,27 @@ const showToc = isMarkdown && toc.length >= 3;
       })();
     </script>
 
+    <!-- Shared browser store (window.__sqrlnest), consumed by the landing and
+         the embedded chatbot. The inline script above handles anti-FOUC before
+         paint; this module creates the TanStack-backed store and keeps prefs +
+         DOM in sync. Re-run on after-swap reconciles lang with the new URL. -->
+    <script>
+      import { initSqrlnestStore } from "../lib/sqrlnest-store";
+      import { navigate } from "astro:transitions/client";
+      import { stripLocale, localizePath } from "../i18n";
+
+      // The landing owns language navigation (URL + SEO). Inject the real
+      // navigator + localizer so __sqrlnest.setLang works from anywhere
+      // (including the chatbot) without importing Astro internals there.
+      const init = {
+        navigate,
+        localizeCurrentPath: (lang) =>
+          localizePath(stripLocale(location.pathname), lang),
+      };
+      initSqrlnestStore(init);
+      document.addEventListener("astro:after-swap", () => initSqrlnestStore(init));
+    </script>
+
     <!-- Preserve scroll position on language switch. ClientRouter scrolls to
          the top on navigation (correct for most links), but switching language
          is the SAME page in another locale, so jumping to the top feels like a
@@ -269,14 +289,11 @@ const showToc = isMarkdown && toc.length >= 3;
         <img src="/logo.png" alt="Ratas" width="36" height="36" class="h-9 w-9" />
         <span class="font-sans font-bold text-sm uppercase tracking-wider text-primary">ratas</span>
       </a>
-      <div class="hidden md:flex gap-6 font-sans text-[11px] uppercase tracking-wider">
+      <div class="ml-auto hidden md:flex gap-6 font-sans text-[11px] uppercase tracking-wider">
         <a href={localizePath("/#platform", locale)} class="text-secondary hover:text-brand no-underline">/platform</a>
         <a href={localizePath("/#agents", locale)} class="text-secondary hover:text-brand no-underline">/agents</a>
         <a href={localizePath("/#pricing", locale)} class="text-secondary hover:text-brand no-underline">/pricing</a>
         <a href={localizePath("/roadmap", locale)} class="text-secondary hover:text-brand no-underline">/roadmap</a>
-      </div>
-      <div class="ml-auto flex items-center gap-4">
-        <ThemeSwitcher client:load />
       </div>
     </nav>
     <div class="flex-1 flex flex-col">
