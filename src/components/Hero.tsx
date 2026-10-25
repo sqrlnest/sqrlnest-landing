@@ -65,13 +65,6 @@ export default function Hero({ locale = defaultLocale }: { locale?: Locale }) {
   const [videoActive, setVideoActive] = useState(false);
   const videoStarted = useRef(false);
 
-  // Respect prefers-reduced-motion: skip the one-shot Yggdrasil video (the
-  // poster is identical to frame 0, so nothing is lost). The headline scramble
-  // is a brief reveal and still runs, but we could gate it here too if needed.
-  const prefersReducedMotion =
-    typeof window !== "undefined" &&
-    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-
   // run the boot sequence once on mount
   useEffect(() => {
     boot();
@@ -89,9 +82,19 @@ export default function Hero({ locale = defaultLocale }: { locale?: Locale }) {
   useEffect(() => {
     if (!done || videoStarted.current) return;
     videoStarted.current = true;
+    // Respect prefers-reduced-motion: skip the one-shot Yggdrasil video (the
+    // poster is identical to frame 0, so nothing is lost). Read matchMedia here
+    // (inside the effect, after hydration) — NOT during render — otherwise the
+    // server/client branch causes a hydration mismatch.
+    const prefersReducedMotion =
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
     if (prefersReducedMotion) return; // keep the static poster, no autoplay
     const v = videoRef.current;
     if (!v) return;
+    // Set muted via the ref (NOT as a JSX attribute) — React does not reliably
+    // reflect `muted` into server-rendered HTML, so a JSX `muted` prop causes a
+    // hydration mismatch. Must be true before play() for autoplay to be allowed.
+    v.muted = true;
     // Start loading/playing but DO NOT cross-fade yet. With preload="none" the
     // video has no decoded frame at this point, so fading the poster out now
     // would reveal a gap (flash) until the first frame arrives. We flip
@@ -232,7 +235,6 @@ export default function Hero({ locale = defaultLocale }: { locale?: Locale }) {
               so competed with the LCP poster for bandwidth. */}
           <video
             ref={videoRef}
-            muted
             playsInline
             preload="none"
             aria-hidden="true"
