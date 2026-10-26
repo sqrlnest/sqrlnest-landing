@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/sqrlnest/sqrlnest-landing/compare/v1.7.0...v1.8.0) (2026-10-26)
+
+
+### Features
+
+* trigger deploy ([6070e75](https://github.com/sqrlnest/sqrlnest-landing/commit/6070e75b0cc2e568b604edb3fe511dbf7d0ac9bb))
+
 # [1.7.0](https://github.com/sqrlnest/sqrlnest-landing/compare/v1.6.1...v1.7.0) (2026-10-25)
 
 
