@@ -474,6 +474,6 @@ const showToc = isMarkdown && toc.length >= 3;
          DOM on document.body (outside the ClientRouter swap region), and reads
          the active theme from localStorage (sqrlnest-theme / sqrlnest-mode) at
          runtime. `async` so it never blocks rendering; it loads after landing. -->
-    <script is:inline src="/api/chatbot/chatbot.js" async></script>
+    <script is:inline type="module" src="/api/chatbot/chatbot.js" async></script>
   </body>
 </html>
